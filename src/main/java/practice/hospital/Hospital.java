@@ -3,7 +3,14 @@ package practice.hospital;
 public class Hospital {
 
     public static float[] generatePatientsTemperatures(int patientsCount) {
-        return new float[0];
+        float[] patientsTemperature = new float[patientsCount];
+
+        for (int i = 0; i < patientsCount; i++) {
+            final int min = 32;
+            final int max = 40;
+            patientsTemperature[i] = Math.round(((float) (Math.random() * (max - min)) + min) * 100) / (float) 100;
+        }
+        return patientsTemperature;
     }
 
     public static String getReport(float[] temperatureData) {
@@ -14,10 +21,29 @@ public class Hospital {
             а температуры каждого пациента до 1 знака после запятой
         */
 
+        int healthyPatients = 0;
+        int count = 0;
+        StringBuilder temp = new StringBuilder();
+        float averageTemperature = 0;
+
+        for (int j = 0; j < temperatureData.length; j++) {
+            count++;
+            averageTemperature = averageTemperature + temperatureData[j] / temperatureData.length;
+            temp.append(temperatureData[j]).append(" ");
+        }
+
+        String resultAverageTemp = String.format("%.2f", averageTemperature);
+
+        for (float temperatureHealthy : temperatureData) {
+            if (temperatureHealthy >= 36.2f && temperatureHealthy <= 36.9f) {
+                healthyPatients++;
+            }
+        }
+
         String report =
-            "Температуры пациентов: " + 1 +
-            "\nСредняя температура: " + 0 +
-            "\nКоличество здоровых: " + 0;
+                "Температуры пациентов: " + temp.toString().trim() +
+                "\nСредняя температура: " + resultAverageTemp +
+                "\nКоличество здоровых: " + healthyPatients;
 
         return report;
     }
